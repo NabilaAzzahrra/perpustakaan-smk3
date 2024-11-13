@@ -88,7 +88,17 @@ class PeminjamanController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $user = User::all();
+        $buku = Buku::all();
+        $peminjaman = Peminjaman::with(['detail', 'detail.buku'])->where('id', $id)->first();
+        $kode_peminjaman = $peminjaman->kode_peminjaman;
+        $detail = DetailPeminjaman::with(['buku'])->where('kode_peminjaman', $kode_peminjaman)->get();
+        return view('page.peminjaman.show')->with([
+            'user' => $user,
+            'buku' => $buku,
+            'peminjaman' => $peminjaman,
+            'detail' => $detail,
+        ]);
     }
 
     /**

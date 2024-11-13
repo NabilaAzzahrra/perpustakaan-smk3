@@ -17,7 +17,7 @@
                                 Penerbit</label>
                             <input type="text" id="kode_penerbit" name="kode_penerbit"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                placeholder="Kode Penerbit" value="{{$kodePenerbit}}" readonly required />
+                                placeholder="Kode Penerbit" value="{{ $kodePenerbit }}" readonly required />
                         </div>
                         <div class="mb-5">
                             <label for="penerbit"
@@ -83,9 +83,9 @@
                                             <button type="button"
                                                 class="bg-amber-400 p-3 w-10 h-10 rounded-xl text-white hover:bg-amber-500"
                                                 onclick="editSourceModal(this)" data-modal-target="sourceModal"
-                                                data-id="{{ $f->id }}" data-kode_penerbit="{{ $f->kode_penerbit }}"
-                                                data-penerbit="{{ $f->penerbit }}"
-                                                data-alamat="{{ $f->alamat }}">
+                                                data-id="{{ $f->id }}"
+                                                data-kode_penerbit="{{ $f->kode_penerbit }}"
+                                                data-penerbit="{{ $f->penerbit }}" data-alamat="{{ $f->alamat }}">
                                                 <i class="fi fi-sr-file-edit"></i>
                                             </button>
                                             <button
@@ -124,7 +124,8 @@
                     @csrf
                     <div class="flex flex-col  p-4 space-y-6">
                         <div class="mb-5">
-                            <label for="text" class="block mb-2 text-sm font-medium text-gray-900">Kode Penerbit</label>
+                            <label for="text" class="block mb-2 text-sm font-medium text-gray-900">Kode
+                                Penerbit</label>
                             <input type="text" id="kode_penerbit_edit" name="kode_penerbit"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 id="" placeholder="Masukan kode penerbit disini...">
@@ -151,9 +152,10 @@
                 </form>
             </div>
         </div>
-    </div>
-<script>
-    const editSourceModal = (button) => {
+
+    </div>
+    <script>
+        const editSourceModal = (button) => {
             const formModal = document.getElementById('formSourceModal');
             const modalTarget = button.dataset.modalTarget;
             const id = button.dataset.id;
@@ -163,7 +165,7 @@
 
             let url = "{{ route('penerbit.update', ':id') }}".replace(':id', id);
             console.log(url);
-            
+
             let status = document.getElementById(modalTarget);
             document.getElementById('title_source').innerText = `Update Penerbit ${penerbit}`;
             document.getElementById('kode_penerbit_edit').value = kode_penerbit;
@@ -184,30 +186,30 @@
             formModal.appendChild(methodInput);
 
             status.classList.toggle('hidden');
-        }
+        }
         const dataDelete = async (id, penerbit) => {
-                let tanya = confirm(`Apakah anda yakin untuk menghapus Penerbit ${penerbit} ?`);
-                if (tanya) {
-                    await axios.post(`/penerbit/${id}`, {
-                            '_method': 'DELETE',
-                            '_token': $('meta[name="csrf-token"]').attr('content')
-                        })
-                        .then(function(response) {
-                            // Handle success
-                            location.reload();
-                        })
-                        .catch(function(error) {
-                            // Handle error
-                            alert('Error deleting record');
-                            console.log(error);
-                        });
-             }
-            }
+            let tanya = confirm(`Apakah anda yakin untuk menghapus Penerbit ${penerbit} ?`);
+            if (tanya) {
+                await axios.post(`/penerbit/${id}`, {
+                        '_method': 'DELETE',
+                        '_token': $('meta[name="csrf-token"]').attr('content')
+                    })
+                    .then(function(response) {
+                        // Handle success
+                        location.reload();
+                    })
+                    .catch(function(error) {
+                        // Handle error
+                        alert('Error deleting record');
+                        console.log(error);
+                    });
+            }
+        }
 
-            const sourceModalClose = (button) => {
-                        const modalTarget = button.dataset.modalTarget;
-                        let status = document.getElementById(modalTarget);
-                        status.classList.toggle('hidden');
-                    }
-</script>
+        const sourceModalClose = (button) => {
+            const modalTarget = button.dataset.modalTarget;
+            let status = document.getElementById(modalTarget);
+            status.classList.toggle('hidden');
+        }
+    </script>
 </x-app-layout>
