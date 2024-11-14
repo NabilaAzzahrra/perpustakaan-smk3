@@ -5,6 +5,7 @@ use App\Http\Controllers\FakultasController;
 use App\Http\Controllers\GenreController;
 use App\Http\Controllers\JurusanController;
 use App\Http\Controllers\KelasController;
+use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\PeminjamanController;
 use App\Http\Controllers\PenerbitController;
 use App\Http\Controllers\ProfileController;
@@ -23,13 +24,15 @@ Route::resource('/genre', GenreController::class)->middleware('auth');
 Route::resource('/sumber', SumberController::class)->middleware('auth');
 Route::resource('/buku', BukuController::class)->middleware('auth');
 Route::resource('/peminjaman', PeminjamanController::class)->middleware('auth');
+Route::resource('/laporan', LaporanController::class)->middleware('auth');
 Route::get('/buku/buku_name/{id}', [BukuController::class, 'getBuku'])->middleware(['auth']);
+Route::get('/print', [LaporanController::class, 'print'])->middleware(['auth']);
 Route::delete('/detailDelete/{id}', [PeminjamanController::class, 'detailDelete'])->middleware(['auth']);
 Route::delete('/detailReturn/{id}', [PeminjamanController::class, 'detailReturn'])->middleware(['auth']);
 Route::patch('/tglKembali/{id}', [PeminjamanController::class, 'tglKembali'])
      ->middleware(['auth'])
      ->name('peminjaman.tglKembali');
-     
+
 Route::get('/dashboard', function (){
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
