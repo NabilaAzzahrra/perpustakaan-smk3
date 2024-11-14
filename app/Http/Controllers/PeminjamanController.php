@@ -31,7 +31,7 @@ class PeminjamanController extends Controller
     public function create()
     {
         $user = User::all();
-        $buku = Buku::all();
+        $buku = Buku::where('status','ADA')->get();
         return view('page.peminjaman.create')->with([
             'user' => $user,
             'buku' => $buku,
@@ -107,17 +107,25 @@ class PeminjamanController extends Controller
     public function edit(string $id)
     {
         $user = User::all();
-        $buku = Buku::all();
+        $buku = Buku::where('status','ADA')->get();
         $peminjaman = Peminjaman::with(['detail', 'detail.buku'])->where('id', $id)->first();
         // dd($peminjaman);
         $kode_peminjaman = $peminjaman->kode_peminjaman;
         $detail = DetailPeminjaman::with(['buku'])->where('kode_peminjaman', $kode_peminjaman)->where('status', 'PINJAM')->get();
         // dd($detail);
+        $dataDetailKodePeminjaman = DetailPeminjaman::where('kode_peminjaman', $kode_peminjaman)
+            ->where('status', 'KEMBALI')
+            ->get();
+
+        // Set $hidden based on whether there are any "KEMBALI" records
+        $hidden = $dataDetailKodePeminjaman->isNotEmpty() ? 'readonly' : '';
+
         return view('page.peminjaman.update')->with([
             'user' => $user,
             'buku' => $buku,
             'peminjaman' => $peminjaman,
             'detail' => $detail,
+            'hidden' => $hidden,
         ]);
     }
 
