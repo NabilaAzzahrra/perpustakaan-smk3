@@ -135,6 +135,7 @@ class PeminjamanController extends Controller
         $tgl_peminjaman_edit = $request->input('tgl_peminjaman');
         $tgl_pengembalian = $request->input('tgl_pengembalian');
         if ($tgl_peminjaman == $tgl_peminjaman_edit) {
+            // dd($kodePeminjaman);
             $buku = $request->input('id_buku', []);
             foreach ($buku as $index => $b) {
                 $dataa = [
@@ -240,5 +241,78 @@ class PeminjamanController extends Controller
         //     'message' => 'Data Terhapus'
         // ], 200);
         return back()->with('message_delete', 'Data Dihapus');
+    }
+
+    public function detailReturn(Request $request, string $id)
+    {
+        $dataDetail = DetailPeminjaman::where('id', $id)->first();
+
+        // Check if dataDetail exists
+        if (!$dataDetail) {
+            return back()->with('error', 'Data not found');
+        }
+
+        $kode_peminjaman = $dataDetail->kode_peminjaman;
+        $id_buku = $dataDetail->id_buku;
+        $tgl_pengembalian = $dataDetail->tgl_pengembalian;
+        $denda = 0;
+
+        // Calculate the fine if the return date is past the due date
+        if (strtotime(date('Y-m-d')) > strtotime($tgl_pengembalian)) {
+            $jmlHari = (strtotime(date('Y-m-d')) - strtotime($tgl_pengembalian)) / (60 * 60 * 24);
+            $denda = $jmlHari * 500;
+        }
+
+        // Update DetailPeminjaman data
+        $dataDetails = [
+            'tgl_kembali' => date('Y-m-d'),
+            'status' => 'KEMBALI',
+            'denda' => $denda,
+        ];
+        $dataDetail->update($dataDetails);
+
+        // Update Peminjaman status
+        // Retrieve all detail records with the specified kode_peminjaman
+        $dataDetailKodePeminjaman = DetailPeminjaman::where('kode_peminjaman', $kode_peminjaman)->get();
+
+        // Check if any of the detail records have a status of "PINJAM"
+        $anyStillPinjam = $dataDetailKodePeminjaman->contains('status', 'PINJAM');
+
+        if (!$anyStillPinjam) {
+            // If no records are "PINJAM", proceed to update the main record status to "KEMBALI"
+            $datas = Peminjaman::where('kode_peminjaman', $kode_peminjaman)->first();
+            if ($datas) {
+                $dataJumlah = [
+                    'status' => 'KEMBALI',
+                ];
+                $datas->update($dataJumlah);
+            }
+        }
+
+        // Update Buku status
+        $datasBuku = Buku::where('id', $id_buku)->first();
+        if ($datasBuku) {
+            $dataBuku = [
+                'status' => 'ADA',
+            ];
+            $datasBuku->update($dataBuku);
+        }
+
+        return back()->with('message_success', 'Data successfully returned');
+    }
+
+    public function tglKembali(Request $request, string $id)
+    {
+        // $dataDetail = DetailPeminjaman::where('id', $id)->first();
+        // $kodePeminjaman = $dataDetail->kode_peminjaman;
+
+        // $dataDetailKodePeminjaman = DetailPeminjaman::where('kode_peminjaman', $kodePeminjaman)->get();
+
+        $data = DetailPeminjaman::findOrFail($id);
+        $datas = [
+            'tgl_pengembalian' => $request->input('tgl_pengembalian')
+        ];
+        $data->update($datas);
+        return back()->with('message_delete', 'Data Diupdate');
     }
 }

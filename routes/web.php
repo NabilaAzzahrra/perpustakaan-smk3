@@ -25,7 +25,11 @@ Route::resource('/buku', BukuController::class)->middleware('auth');
 Route::resource('/peminjaman', PeminjamanController::class)->middleware('auth');
 Route::get('/buku/buku_name/{id}', [BukuController::class, 'getBuku'])->middleware(['auth']);
 Route::delete('/detailDelete/{id}', [PeminjamanController::class, 'detailDelete'])->middleware(['auth']);
-
+Route::delete('/detailReturn/{id}', [PeminjamanController::class, 'detailReturn'])->middleware(['auth']);
+Route::patch('/tglKembali/{id}', [PeminjamanController::class, 'tglKembali'])
+     ->middleware(['auth'])
+     ->name('peminjaman.tglKembali');
+     
 Route::get('/dashboard', function (){
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');

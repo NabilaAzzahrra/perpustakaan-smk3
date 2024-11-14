@@ -52,11 +52,11 @@
                                 <div>DATA BUKU</div>
                             </div>
                         </div>
+                        <input type="hidden" name="kode_peminjaman" value="{{ $peminjaman->kode_peminjaman }}">
                         <div class="border border-2 rounded-xl mb-2 p-2">
                             @foreach ($detail as $d)
                                 <div class="border border-2 rounded-xl mb-2 p-2" id="row">
                                     <div class="flex mb-2 gap-2">
-                                        <input type="hidden" name="kode_peminjaman" value="{{ $d->kode_peminjaman }}">
                                         <input type="hidden" name="id_buku" value="{{ $d->id_buku }}">
                                         {{-- <input type="text" name="status" value="{{ $d->status }}"> --}}
                                         <div class="w-full">

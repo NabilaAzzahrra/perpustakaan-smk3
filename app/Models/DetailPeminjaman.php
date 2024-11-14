@@ -12,6 +12,7 @@ class DetailPeminjaman extends Model
         'status',
         'denda',
         'tgl_pengembalian',
+        'tgl_kembali',
     ];
 
     protected $table = 'detail_peminjaman';

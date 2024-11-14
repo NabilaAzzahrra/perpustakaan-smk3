@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('status');
             $table->integer('denda');
             $table->date('tgl_pengembalian');
+            $table->date('tgl_kembali')->nullable();
             $table->timestamps();
         });
     }
