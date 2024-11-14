@@ -10,6 +10,14 @@ use App\Http\Controllers\PeminjamanController;
 use App\Http\Controllers\PenerbitController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SumberController;
+use App\Models\Buku;
+use App\Models\Fakultas;
+use App\Models\Genre;
+use App\Models\Jurusan;
+use App\Models\Kelas;
+use App\Models\Peminjaman;
+use App\Models\Penerbit;
+use App\Models\Sumber;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -30,15 +38,32 @@ Route::get('/print', [LaporanController::class, 'print'])->middleware(['auth']);
 Route::delete('/detailDelete/{id}', [PeminjamanController::class, 'detailDelete'])->middleware(['auth']);
 Route::delete('/detailReturn/{id}', [PeminjamanController::class, 'detailReturn'])->middleware(['auth']);
 Route::patch('/tglKembali/{id}', [PeminjamanController::class, 'tglKembali'])
-     ->middleware(['auth'])
-     ->name('peminjaman.tglKembali');
+    ->middleware(['auth'])
+    ->name('peminjaman.tglKembali');
 
-Route::get('/dashboard', function (){
+Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    $buku = Buku::count('id');
+    $fakultas = Fakultas::count('id');
+    $jurusan = Jurusan::count('id');
+    $kelas = Kelas::count('id');
+    $penerbit = Penerbit::count('id');
+    $genre = Genre::count('id');
+    $sumber = Sumber::count('id');
+    $peminjaman = Peminjaman::where('tgl_peminjaman', date('Y-m-d'))->count('id');
+    return view('dashboard')->with([
+        'buku' => $buku,
+        'fakultas' => $fakultas,
+        'jurusan' => $jurusan,
+        'kelas' => $kelas,
+        'penerbit' => $penerbit,
+        'genre' => $genre,
+        'sumber' => $sumber,
+        'peminjaman' => $peminjaman,
+    ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -47,4 +72,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
