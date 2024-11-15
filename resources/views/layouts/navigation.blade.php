@@ -17,6 +17,14 @@
                     </x-nav-link>
                 </div>
 
+                @can('role-U')
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link :href="route('peminjaman.index')" :active="request()->routeIs('peminjaman.index')">
+                            {{ __('Peminjaman') }}
+                        </x-nav-link>
+                    </div>
+                @endcan
+
                 @can('role-A')
                     <!-- Navigation Links -->
                     <div class="hidden sm:flex sm:items-center sm:ms-6">
@@ -71,6 +79,12 @@
                         </x-dropdown>
                     </div>
 
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link :href="route('peminjaman.verifikasiPeminjaman')" :active="request()->routeIs('verifikasiPeminjaman')">
+                            {{ __('Verifikasi Peminjaman') }}
+                        </x-nav-link>
+                    </div>
+
                     <!-- Navigation Links -->
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                         <x-nav-link :href="route('peminjaman.index')" :active="request()->routeIs('peminjaman')">
@@ -84,6 +98,7 @@
                         </x-nav-link>
                     </div>
                 @endcan
+
 
             </div>
 

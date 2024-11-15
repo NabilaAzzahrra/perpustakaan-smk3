@@ -98,6 +98,74 @@
                     </div>
                 </div>
             @endcan
+            @can('role-U')
+                <div class="grid grid-cols-4 gap-5">
+                    @foreach ($listBuku as $index => $l)
+                        <div class="bg-amber-200 p-4 rounded-2xl shadow-xl">
+                            <div class="text-center font-bold text-amber-800 bg-amber-50 rounded-xl"
+                                id="title-{{ $index }}">
+                                {{ $l->judul }}
+                            </div>
+                            <div class="text-center text-sm mt-1 font-bold">{{ $l->pengarang }}</div>
+                            <div class="flex justify-center gap-2 items-center text-sm px-12 mt-1">
+                                <div>{{ $l->tahun_terbit }}</div>
+                                <div>{{ $l->genre->genre }}</div>
+                            </div>
+                            <div class="text-sm text-center">
+                                Buku ini direkomendasikan untuk fakultas <span
+                                    class="bg-white px-1">{{ $l->fakultas->fakultas }}</span>
+                            </div>
+                            <div class="text-center mt-2 text-sm" data-status="{{ $l->status }}"
+                                id="availability-{{ $index }}">
+                                Informasi Ketersediaan <br><span class="text-sm bg-amber-100 px-1">TIDAK TERSEDIA</span>
+                            </div>
+                            <div class="text-center mt-2 text-sm">
+                                <button class="bg-sky-300 text-white p-2 rounded-xl hover:bg-sky-400"
+                                    id="loan-button-{{ $index }}" data-id="{{ $l->id }}"
+                                    onclick="handleLoanClick(event)">
+                                    Ajukan Peminjaman
+                                </button>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            @endcan
         </div>
     </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const maxLength = 25;
+
+            document.querySelectorAll('[id^="title-"]').forEach(titleElement => {
+                if (titleElement.innerText.length > maxLength) {
+                    titleElement.innerText = titleElement.innerText.slice(0, maxLength) + "...";
+                }
+            });
+        });
+
+        document.addEventListener("DOMContentLoaded", function() {
+            document.querySelectorAll('[id^="availability-"]').forEach((availabilityElement, index) => {
+                const status = availabilityElement.getAttribute('data-status');
+                const availabilitySpan = availabilityElement.querySelector('span');
+                const loanButton = document.getElementById(`loan-button-${index}`);
+
+                // Update the availability text based on status
+                if (status === "ADA") {
+                    availabilitySpan.innerText = "TERSEDIA";
+                } else {
+                    availabilitySpan.innerText = "TIDAK TERSEDIA";
+                    // Update the button style and disable it
+                    loanButton.classList.remove("bg-sky-300", "hover:bg-sky-400");
+                    loanButton.classList.add("bg-red-300", "cursor-not-allowed");
+                    loanButton.disabled = true;
+                }
+            });
+        });
+
+        function handleLoanClick(event) {
+            const bookId = event.target.getAttribute("data-id");
+
+            window.location.href = "{{ route('peminjaman.pinjam', ['id' => '__bookId__']) }}".replace('__bookId__', bookId);
+        }
+    </script>
 </x-app-layout>

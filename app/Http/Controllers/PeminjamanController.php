@@ -16,12 +16,14 @@ class PeminjamanController extends Controller
      */
     public function index()
     {
-        $data = Peminjaman::with(['detail', 'detail.buku'])->paginate('5');
+        $data = Peminjaman::where('verifikasi', 'SUDAH')->with(['detail', 'detail.buku'])->paginate('5');
+        $dataUser = Peminjaman::where('id_user', Auth::user()->id)->with(['detail', 'detail.buku'])->paginate('5');
         // $peminjaman = Peminjaman::with(['detail','detail.buku'])->get();
         // $dataDetail = DetailPeminjaman::all();
         // return response()->json([$peminjaman]);
         return view('page.peminjaman.index')->with([
             'peminjaman' => $data,
+            'dataUser' => $dataUser,
         ]);
     }
 
@@ -31,7 +33,7 @@ class PeminjamanController extends Controller
     public function create()
     {
         $user = User::all();
-        $buku = Buku::where('status','ADA')->get();
+        $buku = Buku::where('status', 'ADA')->get();
         return view('page.peminjaman.create')->with([
             'user' => $user,
             'buku' => $buku,
@@ -64,6 +66,13 @@ class PeminjamanController extends Controller
             ];
             $datasBuku->update($dataBuku);
         }
+
+        if (Auth::user()->role == 'A') {
+            $verifikasi = 'SUDAH';
+        } else {
+            $verifikasi = 'BELUM';
+        }
+
         $data = [
             'kode_peminjaman' => $kodePeminjaman,
             'id_user' => $request->input('id_user'),
@@ -71,6 +80,7 @@ class PeminjamanController extends Controller
             'tgl_peminjaman' => $request->input('tgl_peminjaman'),
             'tgl_pengembalian' => $request->input('tgl_pengembalian'),
             'status' => 'PINJAM',
+            'verifikasi' => $verifikasi,
         ];
 
         Peminjaman::create($data);
@@ -107,7 +117,7 @@ class PeminjamanController extends Controller
     public function edit(string $id)
     {
         $user = User::all();
-        $buku = Buku::where('status','ADA')->get();
+        $buku = Buku::where('status', 'ADA')->get();
         $peminjaman = Peminjaman::with(['detail', 'detail.buku'])->where('id', $id)->first();
         // dd($peminjaman);
         $kode_peminjaman = $peminjaman->kode_peminjaman;
@@ -322,5 +332,90 @@ class PeminjamanController extends Controller
         ];
         $data->update($datas);
         return back()->with('message_delete', 'Data Diupdate');
+    }
+
+    public function verifikasiPeminjaman()
+    {
+        $data = Peminjaman::where('verifikasi', 'BELUM')->with(['detail', 'detail.buku'])->paginate('5');
+        return view('page.peminjaman.verifikasi')->with([
+            'peminjaman' => $data,
+        ]);
+    }
+
+    public function verifikasiPinjam(string $id)
+    {
+        $data = Peminjaman::findOrFail($id);
+
+        $detail = Peminjaman::where('id', $id)->first();
+        $kode_peminjaman = $detail->kode_peminjaman;
+
+        // Ambil semua detail peminjaman berdasarkan kode_peminjaman
+        $dataDetail = DetailPeminjaman::where('kode_peminjaman', $kode_peminjaman)->get();
+
+        // Iterasi setiap item DetailPeminjaman untuk mendapatkan id_buku
+        foreach ($dataDetail as $detail) {
+            $buku = Buku::where('id', $detail->id_buku)->first();
+
+            // Cek apakah buku ditemukan sebelum update
+            if ($buku) {
+                $dataBuku = [
+                    'status' => 'PINJAM', // Ubah status buku menjadi PINJAM
+                ];
+                $buku->update($dataBuku); // Update status buku
+            }
+        }
+
+        $datas = [
+            'verifikasi' => 'SUDAH'
+        ];
+        $data->update($datas);
+        return redirect()
+            ->route('peminjaman.index')
+            ->with('message', 'Data diverivikasi');
+    }
+
+    public function pinjam(Request $request, string $id)
+    {
+        $buku = Buku::where('id', $id)->first();
+        return view('page.peminjaman.pinjam')->with([
+            'buku' => $buku
+        ]);
+    }
+
+    public function ajukanPeminjaman(Request $request)
+    {
+        $kodePeminjaman = date('YmdHis');
+        $buku = $request->input('buku');
+        $tgl_pengembalian = $request->input('tgl_pengembalian');
+        $dataa = [
+            'kode_peminjaman' => $kodePeminjaman,
+            'id_buku' => $buku,
+            'status' => "PINJAM",
+            'denda' => 0,
+            'tgl_pengembalian' => $tgl_pengembalian,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ];
+        DetailPeminjaman::create($dataa);
+
+
+        $data = [
+            'kode_peminjaman' => $kodePeminjaman,
+            'id_user' => $request->input('id_user'),
+            'jumlah_buku' => 1,
+            'tgl_peminjaman' => $request->input('tgl_peminjaman'),
+            'tgl_pengembalian' => $request->input('tgl_pengembalian'),
+            'status' => 'PINJAM',
+            'verifikasi' => 'BELUM',
+        ];
+
+        Peminjaman::create($data);
+        // return response([
+        //     'status' => 'Success',
+        //     'message' => 'Data Tersimpan'
+        // ], 200);
+        return redirect()
+            ->route('peminjaman.index')
+            ->with('message', 'Data ditambahkan');
     }
 }

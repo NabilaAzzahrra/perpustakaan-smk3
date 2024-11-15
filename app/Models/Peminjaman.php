@@ -13,6 +13,7 @@ class Peminjaman extends Model
         'tgl_peminjaman',
         'tgl_pengembalian',
         'status',
+        'verifikasi',
     ];
 
     protected $table = 'peminjaman';

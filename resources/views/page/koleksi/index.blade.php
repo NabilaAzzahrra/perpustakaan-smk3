@@ -416,49 +416,77 @@
     </style>
 </head>
 
-<body class="font-sans antialiased dark:bg-black dark:text-white/50 bg-[url('img/landing.jpg')] bg-contain">
+<body class="font-sans antialiased dark:bg-black dark:text-white/50  bg-[url('img/landing.jpg')] bg-contain">
     <div
         class="relative flex items-top justify-center h-screen  px-12 lg:px-[200px] bg-white bg-cover bg-opacity-65 dark:bg-gray-900 sm:items-center py-[100px] lg:py-4 sm:pt-0">
-        <div class="flex flex-col lg:flex-row items-center justify-between gap-10 lg:p-5 lg:mx-10">
-            <div class="flex items-center justify-between gap-20">
-                <div>
-                    <div class="flex mb-2 gap-5" data-aos="zoom-in-right">
-                        <div>
-                            <img src="{{ url('img/logo-lp3i.png') }}" alt="" srcset=""
-                                class="lg:w-[200px] w-[130px]">
-                        </div>
-                        <div>
-                            <img src="{{ url('img/gmu.png') }}" alt="" srcset=""
-                                class="lg:w-[150px] w-[100px]">
-                        </div>
+        <div class="grid grid-cols-4 gap-5 -mt-[500px]">
+            @foreach ($buku as $index => $l)
+                <div class="bg-amber-200 p-4 rounded-2xl shadow-xl">
+                    <div class="text-center font-bold text-amber-800 bg-amber-50 rounded-xl"
+                        id="title-{{ $index }}">
+                        {{ $l->judul }}
                     </div>
-                    <div class="font-bold text-[35px]">Si-Perpus</div>
-                    <div class="font-bold text-[20px] -mt-2 mb-2">Sistem Informasi Perpustakaan</div>
-                    <div class="text-justify">Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Reiciendis optio illum ea blanditiis excepturi ratione hic, libero dolore minima fugit,
-                        quae aliquam est distinctio error repellat doloribus explicabo. Praesentium nulla
-                        corporis obcaecati voluptatum est error, quaerat, eum, voluptatem atque maxime quidem
-                        eligendi! Animi labore debitis officia suscipit exercitationem mollitia incidunt est
-                        repellendus rerum ut, odio molestiae culpa, obcaecati eum, nihil officiis facere quas.
-                        In, nulla. Sint odit eveniet aspernatur minus. Labore fugiat beatae quibusdam error
-                        voluptates impedit repellat ipsam est. Repellat similique suscipit, assumenda veniam
-                        veritatis est saepe debitis, illo nam modi illum consequatur ullam, dolore accusamus
-                        corporis. Officiis, aspernatur?</div>
-                    <div class="mt-5">
-                        <a href="{{ route('login') }}" style="z-index: 10;"
-                            class="bg-sky-400 hover:bg-sky-500 py-2 px-8 rounded-2xl font-bold text-white shadow-lg hover:border-blue-700 hover:border-2">Masuk</a>
-                        <a href="{{ route('koleksi.index') }}" style="z-index: 10;"
-                            class="bg-amber-400 hover:bg-amber-500 py-2 px-8 rounded-2xl font-bold text-white shadow-lg hover:border-amber-700 hover:border-2">Koleksi</a>
+                    <div class="text-center text-sm mt-1 font-bold">{{ $l->pengarang }}</div>
+                    <div class="flex justify-center gap-2 items-center text-sm px-12 mt-1">
+                        <div>{{ $l->tahun_terbit }}</div>
+                        <div>{{ $l->genre->genre }}</div>
+                    </div>
+                    <div class="text-sm text-center">
+                        Buku ini direkomendasikan untuk fakultas<br> <span
+                            class="bg-white px-1">{{ $l->fakultas->fakultas }}</span>
+                    </div>
+                    <div class="text-center mt-2 text-sm" data-status="{{ $l->status }}"
+                        id="availability-{{ $index }}">
+                        Informasi Ketersediaan <br><span class="text-sm bg-amber-100 px-1">TIDAK
+                            TERSEDIA</span>
+                    </div>
+                    <div class="text-center mt-2 text-sm">
+                        <button class="bg-sky-300 text-white p-2 rounded-xl hover:bg-sky-400"
+                            id="loan-button-{{ $index }}" onclick="handleLoanClick(event)">
+                            Ajukan Peminjaman
+                        </button>
                     </div>
                 </div>
-                <div>
-                    <dotlottie-player src="{{ url('json/landing.json') }}" background="transparent" speed="1"
-                        style="width: 500px; height: 500px;" loop autoplay></dotlottie-player>
-                </div>
-            </div>
+            @endforeach
         </div>
+        </main>
+
     </div>
+    </div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            document.querySelectorAll('[id^="availability-"]').forEach((availabilityElement, index) => {
+                const status = availabilityElement.getAttribute('data-status');
+                const availabilitySpan = availabilityElement.querySelector('span');
+                const loanButton = document.getElementById(`loan-button-${index}`);
+
+                // Update the availability text based on status
+                if (status === "ADA") {
+                    availabilitySpan.innerText = "TERSEDIA";
+                } else {
+                    availabilitySpan.innerText = "TIDAK TERSEDIA";
+                    // Update the button style and disable it
+                    loanButton.classList.remove("bg-sky-300", "hover:bg-sky-400");
+                    loanButton.classList.add("bg-red-300", "cursor-not-allowed");
+                    loanButton.disabled = true;
+                }
+            });
+        });
+
+        function handleLoanClick(event) {
+            // Menampilkan dialog konfirmasi
+            const hasAccount = confirm("Apakah Anda sudah memiliki akun?");
+
+            // Jika pengguna memilih "OK" (sudah punya akun), arahkan ke halaman login
+            if (hasAccount) {
+                window.location.href = "{{ route('login') }}";
+            } else {
+                // Jika pengguna memilih "Batal" (belum punya akun), arahkan ke halaman daftar
+                window.location.href = "{{ route('koleksi.create') }}";
+            }
+        }
+    </script>
 </body>
-<script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
 
 </html>

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->date('tgl_peminjaman');
             $table->date('tgl_pengembalian');
             $table->string('status');
+            $table->string('verifikasi');
             $table->timestamps();
         });
     }
