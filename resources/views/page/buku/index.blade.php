@@ -10,7 +10,8 @@
             <div class="bg-white shadow-lg p-4 rounded-xl mb-2 flex items-center justify-between">
                 <div>DATA BUKU</div>
                 <div>
-                    <a href="{{ route('buku.create') }}" class="bg-sky-400 p-2 rounded-xl text-white"><i class="fi fi-sr-add-document"></i></a>
+                    <a href="{{ route('buku.create') }}" class="bg-sky-400 p-2 rounded-xl text-white"><i
+                            class="fi fi-sr-add-document"></i></a>
                 </div>
             </div>
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg flex p-4">
@@ -18,45 +19,33 @@
                     <div class="relative overflow-x-auto">
                         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                             <thead
-                                class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                class="text-xs text-gray-700 uppercase ">
                                 <tr>
-                                    <th scope="col" class="px-6 py-3">
+                                    <th scope="col" class="px-6 py-3 bg-gray-100">
                                         NO
                                     </th>
                                     <th scope="col" class="px-6 py-3">
                                         KODE BUKU
                                     </th>
-                                    <th scope="col" class="px-6 py-3">
+                                    <th scope="col" class="px-6 py-3 bg-gray-100">
                                         JUDUL
                                     </th>
                                     <th scope="col" class="px-6 py-3">
-                                        KODE PENERBIT
+                                        PENGARANG
                                     </th>
-                                    <th scope="col" class="px-6 py-3">
+                                    <th scope="col" class="px-6 py-3 bg-gray-100">
                                         KODE GENRE
                                     </th>
                                     <th scope="col" class="px-6 py-3">
-                                        TAHUN TERBIT
+                                        COVER
                                     </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        SINOPSIS
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        HALAMAN
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        EBOOK
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        KODE FAKULTAS
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
+                                    <th scope="col" class="px-6 py-3 bg-gray-100">
                                         STATUS
                                     </th>
                                     <th scope="col" class="px-6 py-3">
                                         KODE SUMBER
                                     </th>
-                                    <th scope="col" class="px-6 py-3">
+                                    <th scope="col" class="px-6 py-3 bg-gray-100">
                                         ACTION
                                     </th>
                                 </tr>
@@ -68,44 +57,35 @@
                                 @foreach ($buku as $f)
                                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                         <th scope="row"
-                                            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white bg-gray-100">
                                             {{ $no++ }}
                                         </th>
                                         <td class="px-6 py-4">
                                             {{ $f->kode_buku }}
                                         </td>
-                                        <td class="px-6 py-4">
+                                        <td class="px-6 py-4 bg-gray-100">
                                             {{ $f->judul }}
                                         </td>
                                         <td class="px-6 py-4">
-                                            {{ $f->penerbit->penerbit }}
+                                            {{ $f->pengarang }}
                                         </td>
-                                        <td class="px-6 py-4">
+                                        <td class="px-6 py-4 bg-gray-100">
                                             {{ $f->genre->genre }}
                                         </td>
                                         <td class="px-6 py-4">
-                                            {{ $f->tahun_terbit }}
+                                            <img src="{{ asset('cover/' . $f->cover) }}" alt="Cover Buku"
+                                                width="100%">
                                         </td>
-                                        <td class="px-6 py-4">
-                                            {{ $f->sinopsis }}
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            {{ $f->halaman }}
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            {{ $f->ebook }}
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            {{ $f->fakultas->fakultas }}
-                                        </td>
-                                        <td class="px-6 py-4">
+                                        <td class="px-6 py-4 bg-gray-100">
                                             {{ $f->status }}
                                         </td>
                                         <td class="px-6 py-4">
                                             {{ $f->sumber->sumber }}
                                         </td>
-                                        <td class="px-6 py-4 flex gap-1">
-                                            <a href="{{route('buku.edit', $f->id)}}" class="bg-amber-400 p-3 w-10 h-10 rounded-xl text-white hover:bg-amber-500"><i class="fi fi-sr-file-edit"></i></a>
+                                        <td class="px-6 py-4 flex gap-1 bg-gray-100">
+                                            <a href="{{ route('buku.edit', $f->id) }}"
+                                                class="bg-amber-400 p-3 w-10 h-10 rounded-xl text-white hover:bg-amber-500"><i
+                                                    class="fi fi-sr-file-edit"></i></a>
                                             <button
                                                 class="bg-red-400 p-3 w-10 h-10 rounded-xl text-white hover:bg-red-500"
                                                 onclick="return dataDelete('{{ $f->id }}','{{ $f->buku }}')">

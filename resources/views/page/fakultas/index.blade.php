@@ -7,87 +7,97 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg flex p-4">
-                <div>
-                    <form class="max-w-sm mx-auto" method="POST" action="{{ route('fakultas.store') }}">
-                        @csrf
-                        <div class="mb-5">
-                            <label for="kode_fakultas"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Kode
-                                Fakultas</label>
-                            <input type="text" id="kode_fakultas" name="kode_fakultas"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                placeholder="Kode Fakultas" value="{{$kodeFakultas}}" readonly required />
-                        </div>
-                        <div class="mb-5">
-                            <label for="fakultas"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Fakultas</label>
-                            <input type="text" id="fakultas" name="fakultas"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                required placeholder="Fakultas" />
-                        </div>
-                        <button type="submit"
-                            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
-                    </form>
-                </div>
-                <div>
-                    <div class="relative overflow-x-auto">
-                        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                            <thead
-                                class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                                <tr>
-                                    <th scope="col" class="px-6 py-g3">
-                                        NO
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        KODE FAKULTAS
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        FAKULTAS
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        ACTION
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @php
-                                    $no = 1;
-                                @endphp
-                                @foreach ($fakultas as $f)
-                                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                        <th scope="row"
-                                            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                            {{ $no++ }}
-                                        </th>
-                                        <td class="px-6 py-4">
-                                            {{ $f->kode_fakultas }}
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            {{ $f->fakultas }}
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            <button type="button"
-                                                class="bg-amber-400 p-3 w-10 h-10 rounded-xl text-white hover:bg-amber-500"
-                                                onclick="editSourceModal(this)" data-modal-target="sourceModal"
-                                                data-id="{{ $f->id }}"
-                                                data-kode_fakultas="{{ $f->kode_fakultas }}"
-                                                data-fakultas="{{ $f->fakultas }}">
-                                                <i class="fi fi-sr-file-edit"></i>
-                                            </button>
-                                            <button
-                                                class="bg-red-400 p-3 w-10 h-10 rounded-xl text-white hover:bg-red-500"
-                                                onclick="return dataDelete('{{ $f->id }}','{{ $f->fakultas }}')">
-                                                <i class="fi fi-sr-delete-document"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+            <div class="flex gap-5 items-start">
+                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg p-4 w-1/2">
+                    <div class="p-4 bg-gray-100 mb-2 rounded-xl font-bold">
+                        FORM INPUT FAKULTAS
                     </div>
-                    <div class="mt-4">
-                        {{ $fakultas->links() }}
+                    <div class="w-full">
+                        <form class="max-w-sm mx-auto" method="POST" action="{{ route('fakultas.store') }}">
+                            @csrf
+                            <div class="mb-5">
+                                <label for="kode_fakultas"
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Kode
+                                    Fakultas</label>
+                                <input type="text" id="kode_fakultas" name="kode_fakultas"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    placeholder="Kode Fakultas" value="{{$kodeFakultas}}" readonly required />
+                            </div>
+                            <div class="mb-5">
+                                <label for="fakultas"
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Fakultas</label>
+                                <input type="text" id="fakultas" name="fakultas"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    required placeholder="Fakultas" />
+                            </div>
+                            <button type="submit"
+                                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg p-4 w-full">
+                    <div class="p-4 bg-gray-100 mb-2 rounded-xl font-bold">
+                        FAKULTAS
+                    </div>
+                    <div class="w-full">
+                        <div class="relative overflow-x-auto">
+                            <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 rounded-xl">
+                                <thead
+                                    class="text-xs text-gray-700 uppercase">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-3 bg-gray-100">
+                                            NO
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            KODE FAKULTAS
+                                        </th>
+                                        <th scope="col" class="px-6 py-3 bg-gray-100">
+                                            FAKULTAS
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            ACTION
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @php
+                                        $no = 1;
+                                    @endphp
+                                    @foreach ($fakultas as $f)
+                                        <tr class="bg-white dark:bg-gray-100 dark:border-gray-100">
+                                            <th scope="row"
+                                                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white bg-gray-100">
+                                                {{ $no++ }}
+                                            </th>
+                                            <td class="px-6 py-4">
+                                                {{ $f->kode_fakultas }}
+                                            </td>
+                                            <td class="px-6 py-4 bg-gray-100">
+                                                {{ $f->fakultas }}
+                                            </td>
+                                            <td class="px-6 py-4">
+                                                <button type="button"
+                                                    class="bg-amber-400 p-3 w-10 h-10 rounded-xl text-white hover:bg-amber-500"
+                                                    onclick="editSourceModal(this)" data-modal-target="sourceModal"
+                                                    data-id="{{ $f->id }}"
+                                                    data-kode_fakultas="{{ $f->kode_fakultas }}"
+                                                    data-fakultas="{{ $f->fakultas }}">
+                                                    <i class="fi fi-sr-file-edit"></i>
+                                                </button>
+                                                <button
+                                                    class="bg-red-400 p-3 w-10 h-10 rounded-xl text-white hover:bg-red-500"
+                                                    onclick="return dataDelete('{{ $f->id }}','{{ $f->fakultas }}')">
+                                                    <i class="fi fi-sr-delete-document"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="mt-4">
+                            {{ $fakultas->links() }}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -132,7 +142,7 @@
                     </div>
                 </form>
             </div>
-        </div>    
+        </div>
     </div>
     <script>
         const editSourceModal = (button) => {

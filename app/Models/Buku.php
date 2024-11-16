@@ -19,6 +19,7 @@ class Buku extends Model
         'kode_fakultas',
         'status',
         'kode_sumber',
+        'cover',
     ];
 
     protected $table = 'buku';

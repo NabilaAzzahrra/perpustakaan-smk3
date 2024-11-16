@@ -9,24 +9,27 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <form class="w-full mx-auto" method="POST" action="{{ route('buku.update', $buku->id) }}"  enctype="multipart/form-data">
+                    <form class="w-full mx-auto" method="POST" action="{{ route('buku.update', $buku->id) }}"
+                        enctype="multipart/form-data">
                         @csrf
                         @method('PATCH')
                         <div class="flex gap-4">
-                            <div class="mb-5 w-full">
-                                <label for="kode_buku"
-                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Kode
-                                    Buku</label>
-                                <input type="text" id="kode_buku" name="kode_buku"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    placeholder="Kode Buku" value="{{ $buku->kode_buku }}" readonly required />
-                            </div>
-                            <div class="mb-5 w-full">
-                                <label for="judul"
-                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Judul</label>
-                                <input type="text" id="judul" name="judul"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    required placeholder="Judul" value="{{ $buku->judul }}" />
+                            <div class="flex gap-5 w-full">
+                                <div class="mb-5 w-full">
+                                    <label for="kode_buku"
+                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Kode
+                                        Buku</label>
+                                    <input type="text" id="kode_buku" name="kode_buku"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        placeholder="Kode Buku" value="{{ $buku->kode_buku }}" readonly required />
+                                </div>
+                                <div class="mb-5 w-full">
+                                    <label for="judul"
+                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Judul</label>
+                                    <input type="text" id="judul" name="judul"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        required placeholder="Judul" value="{{ $buku->judul }}" />
+                                </div>
                             </div>
                             <div class="mb-5 w-full">
                                 <label for="pengarang"
@@ -37,36 +40,54 @@
                             </div>
                         </div>
                         <div class="flex gap-4">
-                            <div class="mb-5 w-full">
-                                <label for="kode_penerbit"
-                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Kode
-                                    Penerbit</label>
-                                <select class="js-example-placeholder-single js-states form-control w-full m-6"
-                                    name="kode_penerbit" id="kode_penerbit" data-placeholder="Pilih Penerbit">
-                                    <option value="{{ $buku->kode_penerbit }}">{{ $buku->penerbit->penerbit }}
-                                    </option>
-                                    @foreach ($penerbit as $k)
-                                        @if ($k->kode_penerbit != $buku->kode_penerbit)
-                                            <option value="{{ $k->kode_penerbit }}">
-                                                {{ $k->penerbit }}</option>
-                                        @endif
-                                    @endforeach
-                                </select>
+                            <div class="flex gap-5 w-full">
+                                <div class="mb-5 w-full">
+                                    <label for="kode_penerbit"
+                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Kode
+                                        Penerbit</label>
+                                    <select class="js-example-placeholder-single js-states form-control w-full m-6"
+                                        name="kode_penerbit" id="kode_penerbit" data-placeholder="Pilih Penerbit">
+                                        <option value="{{ $buku->kode_penerbit }}">{{ $buku->penerbit->penerbit }}
+                                        </option>
+                                        @foreach ($penerbit as $k)
+                                            @if ($k->kode_penerbit != $buku->kode_penerbit)
+                                                <option value="{{ $k->kode_penerbit }}">
+                                                    {{ $k->penerbit }}</option>
+                                            @endif
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="mb-5 w-full">
+                                    <label for="kode_genre"
+                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Kode
+                                        Genre</label>
+                                    <select class="js-example-placeholder-single js-states form-control w-full m-6"
+                                        name="kode_genre" id="kode_genre" data-placeholder="Pilih Genre">
+                                        <option value="{{ $buku->kode_genre }}">{{ $buku->genre->genre }}</option>
+                                        @foreach ($genre as $k)
+                                            @if ($k->kode_genre != $buku->kode_genre)
+                                                <option value="{{ $k->kode_genre }}">
+                                                    {{ $k->genre }}</option>
+                                            @endif
+                                        @endforeach
+                                    </select>
+                                </div>
                             </div>
-                            <div class="mb-5 w-full">
-                                <label for="kode_genre"
-                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Kode
-                                    Genre</label>
-                                <select class="js-example-placeholder-single js-states form-control w-full m-6"
-                                    name="kode_genre" id="kode_genre" data-placeholder="Pilih Genre">
-                                    <option value="{{ $buku->kode_genre }}">{{ $buku->genre->genre }}</option>
-                                    @foreach ($genre as $k)
-                                        @if ($k->kode_genre != $buku->kode_genre)
-                                            <option value="{{ $k->kode_genre }}">
-                                                {{ $k->genre }}</option>
-                                        @endif
-                                    @endforeach
-                                </select>
+                            <div class="flex gap-5 w-full">
+                                <div class="mb-5 w-full">
+                                    <label for="cover"
+                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Cover</label>
+                                    <input type="text" id="covers" name="covers"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        placeholder="Cover" value="{{ $buku->cover }}" readonly/>
+                                </div>
+                                <div class="mb-5 w-full">
+                                    <label for="cover"
+                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Cover</label>
+                                    <input type="file" id="cover" name="cover"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        placeholder="Cover" />
+                                </div>
                             </div>
                         </div>
                         <div class="flex gap-4">
@@ -99,14 +120,14 @@
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ebook</label>
                                 <input type="text" id="ebooks" name="ebooks"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    required placeholder="Ebook" value="{{ $buku->ebook }}" readonly/>
+                                    required placeholder="Ebook" value="{{ $buku->ebook }}" readonly />
                             </div>
                             <div class="mb-5 w-full">
                                 <label for="ebook"
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ebook</label>
                                 <input type="file" id="ebook" name="ebook"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    placeholder="Ebook"/>
+                                    placeholder="Ebook" />
                             </div>
                             <div class="mb-5 w-full">
                                 <label for="kode_fakultas"

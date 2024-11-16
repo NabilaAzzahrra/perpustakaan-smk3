@@ -7,106 +7,116 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg flex p-4">
-                <div>
-                    <form class="max-w-sm mx-auto" method="POST" action="{{ route('kelas.store') }}">
-                        @csrf
-                        <div class="mb-5">
-                            <label for="kode_kelas"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Kode
-                                Kelas</label>
-                            <input type="text" id="kode_kelas" name="kode_kelas"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                placeholder="Kode Kelas" value="{{ $kodeKelas }}" readonly required />
-                        </div>
-                        <div class="mb-5">
-                            <label for="kelas"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Kelas</label>
-                            <input type="text" id="kelas" name="kelas"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                required placeholder="Kelas" />
-                        </div>
-                        <div class="mb-5">
-                            <label for="kode_jurusan"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Kode
-                                Jurusan</label>
-                            <select class="js-example-placeholder-single js-states form-control w-full m-6"
-                                name="kode_jurusan" id="kode_jurusan" data-placeholder="Pilih Jurusan">
-                                <option value="">Pilih...</option>
-                                @foreach ($jurusan as $k)
-                                    <option value="{{ $k->kode_jurusan }}">
-                                        {{ $k->jurusan }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <button type="submit"
-                            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
-                    </form>
-                </div>
-                <div>
-                    <div class="relative overflow-x-auto">
-                        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                            <thead
-                                class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                                <tr>
-                                    <th scope="col" class="px-6 py-3">
-                                        NO
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        KODE KELAS
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        KELAS
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        KODE JURUSAN
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        ACTION
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @php
-                                    $no = 1;
-                                @endphp
-                                @foreach ($kelas as $f)
-                                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                        <th scope="row"
-                                            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                            {{ $no++ }}
-                                        </th>
-                                        <td class="px-6 py-4">
-                                            {{ $f->kode_kelas }}
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            {{ $f->kelas }}
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            {{ $f->jurusan->jurusan }}
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            <button type="button"
-                                                class="bg-amber-400 p-3 w-10 h-10 rounded-xl text-white hover:bg-amber-500"
-                                                onclick="editSourceModal(this)" data-modal-target="sourceModal"
-                                                data-id="{{ $f->id }}" data-kode_kelas="{{ $f->kode_kelas }}"
-                                                data-kelas="{{ $f->kelas }}"
-                                                data-kode_jurusan="{{ $f->kode_jurusan }}">
-                                                <i class="fi fi-sr-file-edit"></i>
-                                            </button>
-                                            <button
-                                                class="bg-red-400 p-3 w-10 h-10 rounded-xl text-white hover:bg-red-500"
-                                                onclick="return dataDelete('{{ $f->id }}','{{ $f->kelas }}')">
-                                                <i class="fi fi-sr-delete-document"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+            <div class="flex items-start gap-5">
+                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg w-1/2 p-4">
+                    <div class="p-4 bg-gray-100 mb-2 rounded-xl font-bold">
+                        FORM INPUT KELAS
                     </div>
-                    <div class="mt-4">
-                        {{ $kelas->links() }}
+                    <div>
+                        <form class="max-w-sm mx-auto" method="POST" action="{{ route('kelas.store') }}">
+                            @csrf
+                            <div class="mb-5">
+                                <label for="kode_kelas"
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Kode
+                                    Kelas</label>
+                                <input type="text" id="kode_kelas" name="kode_kelas"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    placeholder="Kode Kelas" value="{{ $kodeKelas }}" readonly required />
+                            </div>
+                            <div class="mb-5">
+                                <label for="kelas"
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Kelas</label>
+                                <input type="text" id="kelas" name="kelas"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    required placeholder="Kelas" />
+                            </div>
+                            <div class="mb-5">
+                                <label for="kode_jurusan"
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Kode
+                                    Jurusan</label>
+                                <select class="js-example-placeholder-single js-states form-control w-full m-6"
+                                    name="kode_jurusan" id="kode_jurusan" data-placeholder="Pilih Jurusan">
+                                    <option value="">Pilih...</option>
+                                    @foreach ($jurusan as $k)
+                                        <option value="{{ $k->kode_jurusan }}">
+                                            {{ $k->jurusan }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <button type="submit"
+                                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg w-full p-4">
+                    <div class="p-4 bg-gray-100 mb-2 rounded-xl font-bold">
+                        KELAS
+                    </div>
+                    <div>
+                        <div class="relative overflow-x-auto">
+                            <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 rounded-xl">
+                                <thead
+                                    class="text-xs text-gray-700 uppercase">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-3 bg-gray-100">
+                                            NO
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            KODE KELAS
+                                        </th>
+                                        <th scope="col" class="px-6 py-3 bg-gray-100">
+                                            KELAS
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            KODE JURUSAN
+                                        </th>
+                                        <th scope="col" class="px-6 py-3 bg-gray-100">
+                                            ACTION
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @php
+                                        $no = 1;
+                                    @endphp
+                                    @foreach ($kelas as $f)
+                                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                            <th scope="row"
+                                                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white bg-gray-100">
+                                                {{ $no++ }}
+                                            </th>
+                                            <td class="px-6 py-4">
+                                                {{ $f->kode_kelas }}
+                                            </td>
+                                            <td class="px-6 py-4 bg-gray-100">
+                                                {{ $f->kelas }}
+                                            </td>
+                                            <td class="px-6 py-4">
+                                                {{ $f->jurusan->jurusan }}
+                                            </td>
+                                            <td class="px-6 py-4 bg-gray-100">
+                                                <button type="button"
+                                                    class="bg-amber-400 p-3 w-10 h-10 rounded-xl text-white hover:bg-amber-500"
+                                                    onclick="editSourceModal(this)" data-modal-target="sourceModal"
+                                                    data-id="{{ $f->id }}" data-kode_kelas="{{ $f->kode_kelas }}"
+                                                    data-kelas="{{ $f->kelas }}"
+                                                    data-kode_jurusan="{{ $f->kode_jurusan }}">
+                                                    <i class="fi fi-sr-file-edit"></i>
+                                                </button>
+                                                <button
+                                                    class="bg-red-400 p-3 w-10 h-10 rounded-xl text-white hover:bg-red-500"
+                                                    onclick="return dataDelete('{{ $f->id }}','{{ $f->kelas }}')">
+                                                    <i class="fi fi-sr-delete-document"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="mt-4">
+                            {{ $kelas->links() }}
+                        </div>
                     </div>
                 </div>
             </div>

@@ -7,88 +7,100 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg flex p-4">
-                <div>
-                    <form class="max-w-sm mx-auto" method="POST" action="{{ route('genre.store') }}">
-                        @csrf
-                        <div class="mb-5">
-                            <label for="kode_genre"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Kode
-                                Genre</label>
-                            <input type="text" id="kode_genre" name="kode_genre"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                placeholder="Kode Genre" value="{{$kodeGenre}}" readonly required />
-                        </div>
-                        <div class="mb-5">
-                            <label for="genre"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Genre</label>
-                            <input type="text" id="genre" name="genre"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                required placeholder="Genre" />
-                        </div>
-                        <button type="submit"
-                            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
-                    </form>
+            <div class="gap-5 items-start flex">
+                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg w-1/2 p-4">
+                    <div class="p-4 bg-gray-100 mb-2 rounded-xl font-bold">
+                        FORM INPUT GENRE
+                    </div>
+                    <div>
+                        <form class="max-w-sm mx-auto" method="POST" action="{{ route('genre.store') }}">
+                            @csrf
+                            <div class="mb-5">
+                                <label for="kode_genre"
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Kode
+                                    Genre</label>
+                                <input type="text" id="kode_genre" name="kode_genre"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    placeholder="Kode Genre" value="{{$kodeGenre}}" readonly required />
+                            </div>
+                            <div class="mb-5">
+                                <label for="genre"
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Genre</label>
+                                <input type="text" id="genre" name="genre"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    required placeholder="Genre" />
+                            </div>
+                            <button type="submit"
+                                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
+                        </form>
+                    </div>
                 </div>
-                <div>
-                    <div class="relative overflow-x-auto">
-                        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                            <thead
-                                class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                                <tr>
-                                    <th scope="col" class="px-6 py-3">
-                                        NO
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        KODE GENRE
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        GENRE
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        ACTION
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @php
-                                    $no = 1;
-                                @endphp
-                                @foreach ($genre as $f)
-                                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                        <th scope="row"
-                                            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                            {{ $no++ }}
+
+                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg w-full p-4">
+                    <div class="p-4 bg-gray-100 mb-2 rounded-xl font-bold">
+                        GENRE
+                    </div>
+                    <div>
+                        <div class="relative overflow-x-auto">
+                            <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                <thead
+                                    class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-3 bg-gray-100">
+                                            NO
                                         </th>
-                                        <td class="px-6 py-4">
-                                            {{ $f->kode_genre }}
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            {{ $f->genre }}
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            <button type="button"
-                                                class="bg-amber-400 p-3 w-10 h-10 rounded-xl text-white hover:bg-amber-500"
-                                                onclick="editSourceModal(this)" data-modal-target="sourceModal"
-                                                data-id="{{ $f->id }}" data-kode_genre="{{ $f->kode_genre }}"
-                                                data-genre="{{ $f->genre }}">
-                                                <i class="fi fi-sr-file-edit"></i>
-                                            </button>
-                                            <button
-                                                class="bg-red-400 p-3 w-10 h-10 rounded-xl text-white hover:bg-red-500"
-                                                onclick="return dataDelete('{{ $f->id }}','{{ $f->genre }}')">
-                                                <i class="fi fi-sr-delete-document"></i>
-                                            </button>
-                                        </td>
+                                        <th scope="col" class="px-6 py-3">
+                                            KODE GENRE
+                                        </th>
+                                        <th scope="col" class="px-6 py-3 bg-gray-100">
+                                            GENRE
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            ACTION
+                                        </th>
                                     </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="mt-4">
-                        {{ $genre->links() }}
+                                </thead>
+                                <tbody>
+                                    @php
+                                        $no = 1;
+                                    @endphp
+                                    @foreach ($genre as $f)
+                                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                            <th scope="row"
+                                                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white bg-gray-100">
+                                                {{ $no++ }}
+                                            </th>
+                                            <td class="px-6 py-4">
+                                                {{ $f->kode_genre }}
+                                            </td>
+                                            <td class="px-6 py-4 bg-gray-100">
+                                                {{ $f->genre }}
+                                            </td>
+                                            <td class="px-6 py-4">
+                                                <button type="button"
+                                                    class="bg-amber-400 p-3 w-10 h-10 rounded-xl text-white hover:bg-amber-500"
+                                                    onclick="editSourceModal(this)" data-modal-target="sourceModal"
+                                                    data-id="{{ $f->id }}" data-kode_genre="{{ $f->kode_genre }}"
+                                                    data-genre="{{ $f->genre }}">
+                                                    <i class="fi fi-sr-file-edit"></i>
+                                                </button>
+                                                <button
+                                                    class="bg-red-400 p-3 w-10 h-10 rounded-xl text-white hover:bg-red-500"
+                                                    onclick="return dataDelete('{{ $f->id }}','{{ $f->genre }}')">
+                                                    <i class="fi fi-sr-delete-document"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="mt-4">
+                            {{ $genre->links() }}
+                        </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
@@ -110,7 +122,8 @@
                     @csrf
                     <div class="flex flex-col  p-4 space-y-6">
                         <div class="mb-5">
-                            <label for="text" class="block mb-2 text-sm font-medium text-gray-900">Kode Genre</label>
+                            <label for="text" class="block mb-2 text-sm font-medium text-gray-900">Kode
+                                Genre</label>
                             <input type="text" id="kode_genre_edit" name="kode_genre"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 id="" placeholder="Masukan kode genre disini...">
@@ -131,9 +144,10 @@
                 </form>
             </div>
         </div>
-    </div>
-<script>
-    const editSourceModal = (button) => {
+
+    </div>
+    <script>
+        const editSourceModal = (button) => {
             const formModal = document.getElementById('formSourceModal');
             const modalTarget = button.dataset.modalTarget;
             const id = button.dataset.id;
@@ -142,7 +156,7 @@
 
             let url = "{{ route('genre.update', ':id') }}".replace(':id', id);
             console.log(url);
-            
+
             let status = document.getElementById(modalTarget);
             document.getElementById('title_source').innerText = `Update Genre ${genre}`;
             document.getElementById('kode_genre_edit').value = kode_genre;
@@ -162,31 +176,31 @@
             formModal.appendChild(methodInput);
 
             status.classList.toggle('hidden');
-        }
+        }
 
         const dataDelete = async (id, genre) => {
-                let tanya = confirm(`Apakah anda yakin untuk menghapus Genre ${genre} ?`);
-                if (tanya) {
-                    await axios.post(`/genre/${id}`, {
-                            '_method': 'DELETE',
-                            '_token': $('meta[name="csrf-token"]').attr('content')
-                        })
-                        .then(function(response) {
-                            // Handle success
-                            location.reload();
-                        })
-                        .catch(function(error) {
-                            // Handle error
-                            alert('Error deleting record');
-                            console.log(error);
-                        });
-             }
-            }
+            let tanya = confirm(`Apakah anda yakin untuk menghapus Genre ${genre} ?`);
+            if (tanya) {
+                await axios.post(`/genre/${id}`, {
+                        '_method': 'DELETE',
+                        '_token': $('meta[name="csrf-token"]').attr('content')
+                    })
+                    .then(function(response) {
+                        // Handle success
+                        location.reload();
+                    })
+                    .catch(function(error) {
+                        // Handle error
+                        alert('Error deleting record');
+                        console.log(error);
+                    });
+            }
+        }
 
-            const sourceModalClose = (button) => {
-                        const modalTarget = button.dataset.modalTarget;
-                        let status = document.getElementById(modalTarget);
-                        status.classList.toggle('hidden');
-                    }
-</script>
+        const sourceModalClose = (button) => {
+            const modalTarget = button.dataset.modalTarget;
+            let status = document.getElementById(modalTarget);
+            status.classList.toggle('hidden');
+        }
+    </script>
 </x-app-layout>

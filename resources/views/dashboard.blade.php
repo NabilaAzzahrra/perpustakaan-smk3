@@ -97,6 +97,15 @@
                         </div>
                     </div>
                 </div>
+                <div class="flex items-center justify-center">
+                    <div>
+                        <dotlottie-player src="{{ url('json/landing.json') }}" background="transparent" speed="1"
+                            style="width: 500px; height: 500px;" loop autoplay></dotlottie-player>
+                    </div>
+                    <div class="text-wrap text-justify">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores nemo, unde, adipisci error veniam dolor fugiat eligendi architecto quibusdam provident autem excepturi nisi nostrum. Porro exercitationem praesentium illum ut aspernatur quisquam distinctio, velit accusamus. Minus aspernatur mollitia porro corporis incidunt neque possimus explicabo minima adipisci est. Inventore perferendis voluptates saepe!
+                    </div>
+                </div>
             @endcan
             @can('role-U')
                 <div class="grid grid-cols-4 gap-5">
@@ -165,7 +174,8 @@
         function handleLoanClick(event) {
             const bookId = event.target.getAttribute("data-id");
 
-            window.location.href = "{{ route('peminjaman.pinjam', ['id' => '__bookId__']) }}".replace('__bookId__', bookId);
+            window.location.href = "{{ route('peminjaman.pinjam', ['id' => '__bookId__']) }}".replace('__bookId__',
+            bookId);
         }
     </script>
 </x-app-layout>

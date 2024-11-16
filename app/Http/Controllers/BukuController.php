@@ -62,12 +62,17 @@ class BukuController extends Controller
             $ebook = $request->input('judul');
             $kode = date('YmdHis');
 
-            if ($request->hasFile('ebook')) {
+            if ($request->hasFile('ebook') || $request->hasFile('cover')) {
                 // dd('berhasil');
                 $ebookFile = $request->file('ebook');
                 $ebookFileName = $kode . '-' . $ebook . '.' . $ebookFile->extension();
                 $ebookFilePath = $ebookFile->move(public_path('ebook'), $ebookFileName);
                 $ebookFilePath = $ebookFileName;
+
+                $coverFile = $request->file('cover');
+                $coverFileName = $kode . '-' . $ebook . '.' . $coverFile->extension();
+                $coverFilePath = $coverFile->move(public_path('cover'), $coverFileName);
+                $coverFilePath = $coverFileName;
             } else {
                 // dd('ga berhasl');
                 return redirect()->back()->with('error', 'E-Book tidak ditemukan');
@@ -84,7 +89,8 @@ class BukuController extends Controller
                 'ebook' => $ebookFilePath,
                 'kode_fakultas' => $request->input('kode_fakultas'),
                 'status' => $request->input('status'),
-                'kode_sumber' => $request->input('kode_sumber')
+                'kode_sumber' => $request->input('kode_sumber'),
+                'cover' => $coverFilePath,
             ];
             // dd($data);
 
@@ -141,7 +147,23 @@ class BukuController extends Controller
             return redirect()->back()->with('error', 'Data tidak ditemukan.');
         }
 
-        // Update data buku dari request
+        // Validasi input
+        $request->validate([
+            'pengarang' => 'required|string|max:255',
+            'judul' => 'required|string|max:255',
+            'kode_penerbit' => 'required|string|max:50',
+            'kode_genre' => 'required|string|max:50',
+            'tahun_terbit' => 'required|integer',
+            'sinopsis' => 'nullable|string',
+            'halaman' => 'required|integer',
+            'kode_fakultas' => 'required|string|max:50',
+            'status' => 'required|string|max:50',
+            'kode_sumber' => 'required|string|max:50',
+            'ebook' => 'nullable|file|mimes:pdf|max:2048',
+            'cover' => 'nullable|file|mimes:jpeg,jpg,png|max:2048',
+        ]);
+
+        // Simpan data dari request
         $buku->pengarang = $request->input('pengarang');
         $buku->judul = $request->input('judul');
         $buku->kode_penerbit = $request->input('kode_penerbit');
@@ -153,37 +175,49 @@ class BukuController extends Controller
         $buku->status = $request->input('status');
         $buku->kode_sumber = $request->input('kode_sumber');
 
-        // Simpan nama file ebook lama untuk referensi
+        // Simpan nama file lama untuk referensi
         $oldEbook = $buku->ebook;
+        $oldCover = $buku->cover;
 
-        $ko = date('YmdHis');
-        $materi = $request->input('judul');
+        // Generate nama unik untuk file baru
+        $timestamp = date('YmdHis');
+        $judulFormatted = preg_replace('/\s+/', '_', $buku->judul);
 
-        // Jika ada file ebook yang diunggah
+        // Penanganan file ebook
         if ($request->hasFile('ebook')) {
-            // Hapus ebook lama jika ada dan file benar-benar ada di folder
+            // Hapus file lama jika ada
             if ($oldEbook && file_exists(public_path('ebook/' . $oldEbook))) {
                 unlink(public_path('ebook/' . $oldEbook));
             }
 
             $file = $request->file('ebook');
-            $filename = $ko . '-' . preg_replace('/\s+/', '_', $materi) . '.' . $file->getClientOriginalExtension();
+            $filename = "{$timestamp}-{$judulFormatted}.{$file->getClientOriginalExtension()}";
             $file->move(public_path('ebook'), $filename);
 
-            // Simpan nama file baru di database
             $buku->ebook = $filename;
+        }
+
+        // Penanganan file cover
+        if ($request->hasFile('cover')) {
+            // Hapus file lama jika ada
+            if ($oldCover && file_exists(public_path('cover/' . $oldCover))) {
+                unlink(public_path('cover/' . $oldCover));
+            }
+
+            $fileCover = $request->file('cover');
+            $filenameCover = "{$timestamp}-{$judulFormatted}.{$fileCover->getClientOriginalExtension()}";
+            $fileCover->move(public_path('cover'), $filenameCover);
+
+            $buku->cover = $filenameCover;
         }
 
         // Simpan perubahan ke database
         $buku->save();
 
-        // return response([
-        //     'status' => 'Success',
-        //     'message' => 'Data Tersimpan'
-        // ], 200);
+        // Redirect dengan pesan sukses
         return redirect()
             ->route('buku.index')
-            ->with('message', 'Data ditambahkan');
+            ->with('message', 'Data berhasil diperbarui.');
     }
 
     /**

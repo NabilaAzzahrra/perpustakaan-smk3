@@ -15,7 +15,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
 
     <!-- Styles -->
-    <style>
+    {{-- <style>
         /*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */
         html {
             line-height: 1.15;
@@ -385,7 +385,7 @@
                 color: rgb(107 114 128 / var(--tw-text-opacity))
             }
         }
-    </style>
+    </style> --}}
     <style>
         body {
             font-family: 'Poppins', sans-serif;
@@ -416,77 +416,77 @@
     </style>
 </head>
 
-<body class="font-sans antialiased dark:bg-black dark:text-white/50  bg-[url('img/landing.jpg')] bg-contain">
+<body class="font-sans antialiased dark:bg-black dark:text-white/50 bg-[url('img/landing.jpg')] bg-contain">
     <div
-        class="relative flex items-top justify-center h-screen  px-12 lg:px-[200px] bg-white bg-cover bg-opacity-65 dark:bg-gray-900 sm:items-center py-[100px] lg:py-4 sm:pt-0">
-        <div class="grid grid-cols-4 gap-5 -mt-[500px]">
+        class="relative flex items-top justify-center h-screen bg-white bg-cover bg-opacity-65 dark:bg-gray-900 sm:items-center py-[100px] lg:py-4 sm:pt-0">
+        <div class="grid grid-cols-5 gap-5 w-full -mt-[650px] mx-6">
             @foreach ($buku as $index => $l)
-                <div class="bg-amber-200 p-4 rounded-2xl shadow-xl">
-                    <div class="text-center font-bold text-amber-800 bg-amber-50 rounded-xl"
-                        id="title-{{ $index }}">
-                        {{ $l->judul }}
+                <div class="bg-amber-100 p-4 rounded-2xl shadow-xl">
+                    <div class="flex items-start">
+                        <div class="mr-4"><img src="{{ asset('cover/' . $l->cover) }}" alt="Cover Buku"
+                                width="100"></div>
+                        <div>
+                            <div class="text-left font-bold text-amber-800 rounded-xl text-lg text-wrap"
+                                id="title-{{ $index }}">
+                                {{ $l->judul }}
+                            </div>
+                            <div class="text-left text-sm">{{ $l->pengarang }}</div>
+                            <div class="text-sm text-center">
+                                Rekomendasi <span
+                                    class="bg-white px-2 text-sm rounded-xl">{{ $l->fakultas->fakultas }}</span>
+                            </div>
+                            <div class="text-left text-sm mt-1 -ml-1" data-status="{{ $l->status }}"
+                                id="availability-{{ $index }}"><span
+                                    class="text-sm bg-amber-100 px-1 font-bold">TIDAK
+                                    TERSEDIA</span></div>
+                            <div class="text-center mt-2 text-sm">
+                                <button class="bg-sky-300 text-white p-2 rounded-xl hover:bg-sky-400"
+                                    id="loan-button-{{ $index }}" onclick="handleLoanClick(event)">
+                                    Ajukan Peminjaman
+                                </button>
+                            </div>
+                        </div>
                     </div>
-                    <div class="text-center text-sm mt-1 font-bold">{{ $l->pengarang }}</div>
-                    <div class="flex justify-center gap-2 items-center text-sm px-12 mt-1">
-                        <div>{{ $l->tahun_terbit }}</div>
-                        <div>{{ $l->genre->genre }}</div>
-                    </div>
-                    <div class="text-sm text-center">
-                        Buku ini direkomendasikan untuk fakultas<br> <span
-                            class="bg-white px-1">{{ $l->fakultas->fakultas }}</span>
-                    </div>
-                    <div class="text-center mt-2 text-sm" data-status="{{ $l->status }}"
-                        id="availability-{{ $index }}">
-                        Informasi Ketersediaan <br><span class="text-sm bg-amber-100 px-1">TIDAK
-                            TERSEDIA</span>
-                    </div>
-                    <div class="text-center mt-2 text-sm">
-                        <button class="bg-sky-300 text-white p-2 rounded-xl hover:bg-sky-400"
-                            id="loan-button-{{ $index }}" onclick="handleLoanClick(event)">
-                            Ajukan Peminjaman
-                        </button>
-                    </div>
+
+
                 </div>
             @endforeach
         </div>
-        </main>
-
     </div>
-    </div>
-    </div>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            document.querySelectorAll('[id^="availability-"]').forEach((availabilityElement, index) => {
-                const status = availabilityElement.getAttribute('data-status');
-                const availabilitySpan = availabilityElement.querySelector('span');
-                const loanButton = document.getElementById(`loan-button-${index}`);
-
-                // Update the availability text based on status
-                if (status === "ADA") {
-                    availabilitySpan.innerText = "TERSEDIA";
-                } else {
-                    availabilitySpan.innerText = "TIDAK TERSEDIA";
-                    // Update the button style and disable it
-                    loanButton.classList.remove("bg-sky-300", "hover:bg-sky-400");
-                    loanButton.classList.add("bg-red-300", "cursor-not-allowed");
-                    loanButton.disabled = true;
-                }
-            });
-        });
-
-        function handleLoanClick(event) {
-            // Menampilkan dialog konfirmasi
-            const hasAccount = confirm("Apakah Anda sudah memiliki akun?");
-
-            // Jika pengguna memilih "OK" (sudah punya akun), arahkan ke halaman login
-            if (hasAccount) {
-                window.location.href = "{{ route('login') }}";
-            } else {
-                // Jika pengguna memilih "Batal" (belum punya akun), arahkan ke halaman daftar
-                window.location.href = "{{ route('koleksi.create') }}";
-            }
-        }
-    </script>
 </body>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        document.querySelectorAll('[id^="availability-"]').forEach((availabilityElement, index) => {
+            const status = availabilityElement.getAttribute('data-status');
+            const availabilitySpan = availabilityElement.querySelector('span');
+            const loanButton = document.getElementById(`loan-button-${index}`);
+
+            // Update the availability text based on status
+            if (status === "ADA") {
+                availabilitySpan.innerText = "TERSEDIA";
+            } else {
+                availabilitySpan.innerText = "TIDAK TERSEDIA";
+                // Update the button style and disable it
+                loanButton.classList.remove("bg-sky-300", "hover:bg-sky-400");
+                loanButton.classList.add("bg-red-300", "cursor-not-allowed");
+                loanButton.disabled = true;
+            }
+        });
+    });
+
+    function handleLoanClick(event) {
+        // Menampilkan dialog konfirmasi
+        const hasAccount = confirm("Apakah Anda sudah memiliki akun?");
+
+        // Jika pengguna memilih "OK" (sudah punya akun), arahkan ke halaman login
+        if (hasAccount) {
+            window.location.href = "{{ route('login') }}";
+        } else {
+            // Jika pengguna memilih "Batal" (belum punya akun), arahkan ke halaman daftar
+            window.location.href = "{{ route('koleksi.create') }}";
+        }
+    }
+</script>
 
 </html>

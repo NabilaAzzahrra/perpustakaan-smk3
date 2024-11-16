@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('kode_fakultas')->nullable();
             $table->string('status');
             $table->string('kode_sumber');
+            $table->string('cover');
             $table->timestamps();
         });
     }

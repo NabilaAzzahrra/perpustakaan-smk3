@@ -22,25 +22,25 @@
                                 <thead
                                     class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                     <tr>
-                                        <th scope="col" class="px-6 py-3">
+                                        <th scope="col" class="px-6 py-3 bg-gray-100">
                                             NO
                                         </th>
                                         <th scope="col" class="px-6 py-3">
                                             KODE PEMINJAMAN
                                         </th>
-                                        <th scope="col" class="px-6 py-3">
+                                        <th scope="col" class="px-6 py-3 bg-gray-100">
                                             NAMA
                                         </th>
                                         <th scope="col" class="px-6 py-3">
                                             JUMLAH BUKU
                                         </th>
-                                        <th scope="col" class="px-6 py-3">
+                                        <th scope="col" class="px-6 py-3 bg-gray-100">
                                             TANGGAL PEMINJAMAN
                                         </th>
                                         <th scope="col" class="px-6 py-3">
                                             TANGGAL PENGEMBALIAN
                                         </th>
-                                        <th scope="col" class="px-6 py-3">
+                                        <th scope="col" class="px-6 py-3 bg-gray-100">
                                             STATUS
                                         </th>
                                         <th scope="col" class="px-6 py-3">
@@ -55,25 +55,25 @@
                                     @foreach ($peminjaman as $f)
                                         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                             <th scope="row"
-                                                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white bg-gray-100">
                                                 {{ $no++ }}
                                             </th>
                                             <td class="px-6 py-4">
                                                 {{ $f->kode_peminjaman }}
                                             </td>
-                                            <td class="px-6 py-4">
+                                            <td class="px-6 py-4 bg-gray-100">
                                                 {{ $f->id_user }}
                                             </td>
                                             <td class="px-6 py-4">
                                                 {{ $f->jumlah_buku }}
                                             </td>
-                                            <td class="px-6 py-4">
+                                            <td class="px-6 py-4 bg-gray-100">
                                                 {{ $f->tgl_peminjaman }}
                                             </td>
                                             <td class="px-6 py-4">
                                                 {{ $f->tgl_pengembalian }}
                                             </td>
-                                            <td class="px-6 py-4">
+                                            <td class="px-6 py-4 bg-gray-100">
                                                 {{ $f->status }}
                                             </td>
                                             <td class="px-6 py-4 flex gap-1">
@@ -108,33 +108,33 @@
                         <div class="relative overflow-x-auto">
                             <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                                 <thead
-                                    class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                    class="text-xs text-gray-700 uppercase">
                                     <tr>
-                                        <th scope="col" class="px-6 py-3">
+                                        <th scope="col" class="px-6 py-3 bg-gray-100">
                                             NO
                                         </th>
                                         <th scope="col" class="px-6 py-3">
                                             KODE PEMINJAMAN
                                         </th>
-                                        <th scope="col" class="px-6 py-3">
+                                        <th scope="col" class="px-6 py-3 bg-gray-100">
                                             NAMA
                                         </th>
                                         <th scope="col" class="px-6 py-3">
                                             JUMLAH BUKU
                                         </th>
-                                        <th scope="col" class="px-6 py-3">
+                                        <th scope="col" class="px-6 py-3 bg-gray-100">
                                             TANGGAL PEMINJAMAN
                                         </th>
                                         <th scope="col" class="px-6 py-3">
                                             TANGGAL PENGEMBALIAN
                                         </th>
-                                        <th scope="col" class="px-6 py-3">
+                                        <th scope="col" class="px-6 py-3 bg-gray-100">
                                             STATUS
                                         </th>
                                         <th scope="col" class="px-6 py-3">
                                             VERIFIKASI
                                         </th>
-                                        <th scope="col" class="px-6 py-3">
+                                        <th scope="col" class="px-6 py-3 bg-gray-100">
                                             DETAIL
                                         </th>
                                     </tr>
@@ -146,31 +146,31 @@
                                     @foreach ($dataUser as $f)
                                         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                             <th scope="row"
-                                                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white bg-gray-100">
                                                 {{ $no++ }}
                                             </th>
                                             <td class="px-6 py-4">
                                                 {{ $f->kode_peminjaman }}
                                             </td>
-                                            <td class="px-6 py-4">
+                                            <td class="px-6 py-4 bg-gray-100">
                                                 {{ $f->id_user }}
                                             </td>
                                             <td class="px-6 py-4">
                                                 {{ $f->jumlah_buku }}
                                             </td>
-                                            <td class="px-6 py-4">
+                                            <td class="px-6 py-4 bg-gray-100">
                                                 {{ $f->tgl_peminjaman }}
                                             </td>
                                             <td class="px-6 py-4">
                                                 {{ $f->tgl_pengembalian }}
                                             </td>
-                                            <td class="px-6 py-4">
+                                            <td class="px-6 py-4 bg-gray-100">
                                                 {{ $f->status }}
                                             </td>
                                             <td class="px-6 py-4">
                                                 {{ $f->verifikasi }}
                                             </td>
-                                            <td class="px-6 py-4 flex gap-1">
+                                            <td class="px-6 py-4 flex gap-1 bg-gray-100">
                                                 <a href="{{ route('peminjaman.show', $f->id) }}"
                                                     class="bg-emerald-400 p-3 w-10 h-10 rounded-xl text-white hover:bg-emerald-500">
                                                     <i class="fi fi-sr-document"></i>
